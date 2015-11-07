@@ -1,34 +1,43 @@
 <?php
 echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
 /*
- * This program takes a CSV and compute the jugement majoritaire of candidates.
-Commande line : php jugementmajoritaire.php name_of_candidates list
-CSV is one column per
-You have to specify the names of the marks in ascending order in the variable $scores2mention
-You have to specity the delimiters of your CSV. Default is tab delimiter, no enclosure
-Launch the script in command line with 'php jugementmajoritaire.php path-to-your-csv
-Output is the list of candidates sorted by descending ranks with their marks.
+ * This program takes a CSV and computes the 'jugement majoritaire' of candidates : https://fr.wikipedia.org/wiki/Jugement_majoritaire
+
+Launch with commande line : php jugementmajoritaire.php name_of_candidates list
+
+CSV is one column per candidate, the first line being the names of candidates.
+- You have to specify the names of the marks in ascending order in the variable $scores2mention
+- You have to specity the delimiters of your CSV. Default is tab delimiter, no enclosure,
+- Launch the script in command line with 'php jugementmajoritaire.php path-to-your-csv
+- Output is the list of candidates sorted by descending ranks with their marks.
+ 
  */
 
+// custom parameters
 $delimiter = "\t";
 $enclosure = ' ' ;
 $enclosure_out='"'; // pour le fichier de sortie
 $scores2mention=array('Insuffisant','Passable','Assez bien','Bien','Très bien','Excellent');
 
+
+////////////////////// CODE /////////////
+// Getting parameters
+if ($_GET) {
+    $vote_results= $_GET['vote_results']; // nombre de proce        
+} else {
+    $vote_results= $argv[1]; // nom du projet    
+}
+
+// invers dictionary
 $mention2scores=array();
 foreach ($scores2mention as $key => $value) {
 	$mention2scores[$value]=$key;
 }
-//print_r($mention2scores);
 
-if ($_GET) {
-    $project_name= $_GET['project']; // nombre de proce        
-} else {
-    $project_name= $argv[1]; // nom du projet    
-}
 
+// Import the CSV
 $line_id=0;
-$handle = fopen($project_name, "r","UTF-8");
+$handle = fopen($vote_results, "r","UTF-8");
         while (($line= fgetcsv($handle, 4096,$delimiter,$enclosure)) !== false) {
         	$line_id+=1;
         	if ($line_id<2){
@@ -49,12 +58,14 @@ $handle = fopen($project_name, "r","UTF-8");
 $candidates_scores_for_sorting=array();
 $candidates_scores=array();
 
+
+// Compute the scores
 foreach ($candidates as $key => $marks) {    
     $scores=(rank($marks,$mention2scores));
     $n=count($scores);// nombre de vote exprimés pour ce candidat
     $size=count($scores);// on fait une récursion sur la taille du tableau
     $final_mark=array();
-    //print_r($scores);
+
     while ($size>0){ 
         $temp_mark=$scores[floor(count($scores)/2)];       
         $final_mark[]=$temp_mark;
@@ -68,13 +79,8 @@ foreach ($candidates as $key => $marks) {
     }
     $candidates_scores_for_sorting[$key]=$scores_for_sorting;
     $candidates_scores[$key]=$final_mark;
-    //echo 'score for '.$candidates_names[$key].'='.$scores_for_sorting.PHP_EOL;  
-    //echo score2mention($final_mark,$scores2mention).PHP_EOL;
-    //print_r($candidates_scores[$key]);
 }
 arsort($candidates_scores_for_sorting,SORT_STRING);
-//print_r($candidates_scores_for_sorting);
-
 
 // output
 $output= fopen('results.txt', "w","UTF-8");
@@ -86,9 +92,7 @@ foreach ($candidates_scores_for_sorting as $key => $value) {
 fclose($output);
 
 
-
-
-
+/// Functions
 function rank($array,$mention2scores)
 // converts an array with mention into a sorted array with their rank without empty cells
 {
