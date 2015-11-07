@@ -1,0 +1,18 @@
+Candidate7 : Excellent/Très bien/Assez bien/
+Candidate11 : Excellent/Bien/Très bien/Assez bien/
+Candidate10 : Très bien/Excellent/Bien/Assez bien/
+Candidate13 : Très bien/Excellent/Bien/Passable/
+Candidate9 : Très bien/Excellent/Assez bien/Bien/
+Candidate15 : Très bien/Excellent/Assez bien/Passable/Bien/
+Candidate5 : Très bien/Bien/Excellent/Passable/Insuffisant/Assez bien/
+Candidate18 : Très bien/Bien/Excellent/Insuffisant/
+Candidate6 : Très bien/Assez bien/Bien/Excellent/Passable/
+Candidate17 : Bien/Très bien/Excellent/Assez bien/Passable/
+Candidate4 : Bien/Très bien/Excellent/Assez bien/
+Candidate2 : Bien/Très bien/Excellent/Assez bien/
+Candidate8 : Bien/Très bien/Assez bien/Excellent/Passable/
+Candidate16 : Bien/Assez bien/Très bien/Excellent/Insuffisant/Passable/
+Candidate1 : Bien/Assez bien/Très bien/Passable/Excellent/Insuffisant/
+Candidate14 : Bien/Assez bien/Très bien/Passable/
+Candidate3 : Assez bien/Bien/Très bien/Passable/
+Candidate12 : Assez bien/Bien/Très bien/Insuffisant/Excellent/
